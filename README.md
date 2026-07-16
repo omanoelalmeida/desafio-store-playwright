@@ -218,3 +218,76 @@ DemoBlaze:
 ```text
 https://www.demoblaze.com
 ```
+## BDD com Gherkin
+
+Como diferencial, o projeto também possui uma implementação utilizando Behavior-Driven Development (BDD), com cenários escritos em Gherkin e executados por meio do `playwright-bdd`.
+
+O cenário BDD está localizado em:
+
+```text
+features/store.feature
+```
+
+As definições das etapas estão em:
+
+```text
+features/steps/store.steps.ts
+```
+
+A fixture específica do BDD está em:
+
+```text
+features/steps/bdd.fixture.ts
+```
+
+A configuração de execução está no arquivo:
+
+```text
+playwright.bdd.config.ts
+```
+
+### Cenário automatizado em Gherkin
+
+```gherkin
+# language: pt
+
+@bdd @e2e
+Funcionalidade: Gerenciamento de produto no carrinho da DemoBlaze
+  Como cliente da loja
+  Quero cadastrar uma conta e gerenciar um produto no carrinho
+  Para validar o funcionamento do fluxo principal de compra
+
+  Cenário: Cadastrar usuário, adicionar e remover um produto
+    Dado que um novo usuário foi cadastrado
+    E que ele realizou login com os dados cadastrados
+    Quando ele adiciona o produto "Samsung galaxy s6" ao carrinho
+    Então o produto deve aparecer no carrinho
+    Quando ele remove o produto do carrinho
+    Então o produto não deve mais aparecer no carrinho
+```
+
+### Gerar os testes BDD
+
+```bash
+npm run bdd:generate
+```
+
+### Executar o cenário BDD
+
+```bash
+npm run test:bdd
+```
+
+### Executar o BDD com o navegador aberto
+
+```bash
+npm run test:bdd:headed
+```
+
+### Abrir o relatório BDD
+
+```bash
+npm run test:bdd:report
+```
+
+A pasta `.features-gen` é gerada automaticamente pelo `playwright-bdd` e não é versionada no repositório.
