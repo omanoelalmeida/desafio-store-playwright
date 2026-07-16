@@ -4,7 +4,7 @@ node_modules/
 # variáveis de ambiente
 .env
 
-# resultados e relatórios do Playwright
+# resultados e relatórios do playwright
 test-results/
 playwright-report/
 blob-report/
@@ -18,3 +18,9 @@ Thumbs.db
 
 # configurações locais
 .vscode/
+
+# arquivos gerados pelo playwright-BDD
+.features-gen/
+
+# relatório BDD
+playwright-report-bdd/
