@@ -1,0 +1,20 @@
+# dependências
+node_modules/
+
+# variáveis de ambiente
+.env
+
+# resultados e relatórios do Playwright
+test-results/
+playwright-report/
+blob-report/
+
+# cache do Playwright
+playwright/.cache/
+
+# arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# configurações locais
+.vscode/
