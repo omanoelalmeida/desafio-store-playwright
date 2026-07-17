@@ -1,10 +1,14 @@
-# Desafio de Automação — DemoBlaze
+# Desafio Técnico – Easysecrets
 
-Projeto de automação de testes end-to-end desenvolvido com Playwright e TypeScript para validar o fluxo principal da aplicação DemoBlaze.
+## Case 1 – Automação de Testes
 
-## Objetivo
+Projeto de automação de testes end-to-end desenvolvido com **Playwright** e **TypeScript** para validar o fluxo principal da aplicação **DemoBlaze**.
 
-Automatizar o seguinte fluxo:
+---
+
+# Objetivo
+
+Automatizar o seguinte fluxo da aplicação:
 
 1. Cadastrar um novo usuário;
 2. Realizar login com o usuário cadastrado;
@@ -14,21 +18,69 @@ Automatizar o seguinte fluxo:
 6. Remover o produto;
 7. Validar que o produto foi removido.
 
-## Tecnologias utilizadas
+---
+
+# Tecnologias utilizadas
 
 * Node.js
 * TypeScript
 * Playwright
 * Dotenv
-* Page Object Model
 * Playwright Fixtures
+* Page Object Model (POM)
+* playwright-bdd (BDD com Gherkin)
 
-## Arquitetura do projeto
+---
+
+# Decisões Técnicas
+
+## Playwright
+
+O Playwright foi escolhido por ser um framework moderno para automação de testes end-to-end, oferecendo suporte aos principais navegadores, esperas automáticas e uma API intuitiva para criação de testes confiáveis.
+
+## TypeScript
+
+O TypeScript foi utilizado para fornecer tipagem estática, melhorar a legibilidade do código e facilitar sua manutenção.
+
+## Page Object Model (POM)
+
+Foi adotado o padrão **Page Object Model**, separando a lógica de interação com a interface dos cenários de teste.
+
+Essa abordagem reduz duplicação de código e facilita futuras manutenções quando houver alterações na interface da aplicação.
+
+## Fixtures
+
+As fixtures personalizadas disponibilizam os Page Objects para os testes, evitando repetição de inicializações e deixando os cenários focados apenas nas regras de negócio.
+
+## Dados dinâmicos
+
+Como a DemoBlaze não permite cadastrar usuários duplicados, o projeto gera automaticamente um novo usuário a cada execução.
+
+Isso torna os testes independentes de execuções anteriores.
+
+## Variáveis de ambiente
+
+A URL da aplicação foi configurada utilizando um arquivo `.env`, evitando valores fixos no código e facilitando a execução em diferentes ambientes.
+
+## BDD
+
+Como diferencial, foi implementada uma versão do cenário utilizando **Behavior-Driven Development (BDD)** por meio da biblioteca `playwright-bdd`.
+
+Essa abordagem aproxima os testes da linguagem de negócio sem perder os recursos nativos do Playwright.
+
+---
+
+# Estrutura do Projeto
 
 ```text
 desafio-store-playwright/
 ├── data/
 │   └── user-data.ts
+├── features/
+│   ├── steps/
+│   │   ├── bdd.fixture.ts
+│   │   └── store.steps.ts
+│   └── store.feature
 ├── fixtures/
 │   └── store.fixture.ts
 ├── pages/
@@ -41,41 +93,52 @@ desafio-store-playwright/
 ├── .env.example
 ├── .gitignore
 ├── package.json
+├── playwright.bdd.config.ts
 ├── playwright.config.ts
 └── README.md
 ```
 
-### Responsabilidade das camadas
+---
 
-* `tests`: contém os cenários e asserções dos testes;
-* `pages`: contém os Page Objects e as interações com as páginas;
-* `fixtures`: disponibiliza os Page Objects para os testes;
-* `data`: contém tipos e geração de dados dinâmicos;
-* `playwright.config.ts`: contém as configurações gerais do Playwright.
+# Organização das Camadas
 
-## Pré-requisitos
+| Pasta                      | Responsabilidade                                                     |
+| -------------------------- | -------------------------------------------------------------------- |
+| `tests`                    | Contém os cenários automatizados e as validações                     |
+| `pages`                    | Implementa os Page Objects e centraliza as interações com as páginas |
+| `fixtures`                 | Disponibiliza os Page Objects para os testes                         |
+| `features`                 | Contém os cenários escritos em Gherkin e seus Step Definitions       |
+| `data`                     | Responsável pelos dados dinâmicos utilizados durante os testes       |
+| `playwright.config.ts`     | Configurações gerais do Playwright                                   |
+| `playwright.bdd.config.ts` | Configuração específica para execução dos testes BDD                 |
 
-Antes de executar o projeto, é necessário instalar:
+---
 
-* Node.js LTS;
-* npm.
+# Pré-requisitos
 
-Para verificar as instalações:
+Antes de executar o projeto é necessário possuir:
+
+* Node.js (LTS)
+* npm
+
+Para verificar as versões instaladas:
 
 ```bash
 node --version
 npm --version
 ```
 
-## Instalação
+---
+
+# Instalação
 
 Clone o repositório:
 
 ```bash
-git clone URL_DO_REPOSITORIO
+git clone https://github.com/omanoelalmeida/desafio-store-playwright.git
 ```
 
-Entre na pasta do projeto:
+Entre na pasta:
 
 ```bash
 cd desafio-store-playwright
@@ -87,17 +150,19 @@ Instale as dependências:
 npm install
 ```
 
-Instale os navegadores utilizados pelo Playwright:
+Instale os navegadores do Playwright:
 
 ```bash
 npx playwright install
 ```
 
-## Configuração do ambiente
+---
 
-Crie um arquivo chamado `.env` na raiz do projeto.
+# Configuração do Ambiente
 
-Use o arquivo `.env.example` como referência:
+Crie um arquivo `.env` na raiz do projeto utilizando como referência o arquivo `.env.example`.
+
+Exemplo:
 
 ```env
 BASE_URL=https://www.demoblaze.com
@@ -105,85 +170,79 @@ BASE_URL=https://www.demoblaze.com
 
 O arquivo `.env` não deve ser enviado ao repositório.
 
-## Execução dos testes
+---
 
-### Executar todos os testes
+# Execução dos Testes
+
+## Executar os testes
 
 ```bash
 npm test
 ```
 
-### Executar somente no Chromium
+## Executar no Chromium
 
 ```bash
 npm run test:chromium
 ```
 
-### Executar somente no Firefox
+## Executar no Firefox
 
 ```bash
 npm run test:firefox
 ```
 
-### Executar somente no WebKit
+## Executar no WebKit
 
 ```bash
 npm run test:webkit
 ```
 
-### Executar com o navegador aberto
+## Executar com navegador aberto
 
 ```bash
 npm run test:headed
 ```
 
-### Abrir a interface visual do Playwright
+## Abrir a interface do Playwright
 
 ```bash
 npm run test:ui
 ```
 
-### Executar em modo de depuração
+## Executar em modo de depuração
 
 ```bash
 npm run test:debug
 ```
 
-## Validação do TypeScript
+---
 
-Para verificar erros de tipagem sem executar os testes:
+# Verificação do TypeScript
+
+Para validar a tipagem do projeto:
 
 ```bash
 npm run typecheck
 ```
 
-## Relatório de execução
+---
 
-Depois da execução dos testes, abra o relatório HTML com:
+# Relatório de Execução
+
+Após executar os testes, abra o relatório HTML:
 
 ```bash
 npm run test:report
 ```
 
-## Boas práticas aplicadas
+---
 
-* Page Object Model;
-* Separação do projeto em camadas;
-* Fixtures personalizadas;
-* Geração dinâmica de usuários;
-* Asserções objetivas;
-* Uso de `test.step`;
-* Seletores centralizados;
-* Código reutilizável;
-* Tipagem com TypeScript;
-* Captura e validação de alertas;
-* Evidências de falha com screenshots, vídeos e traces.
+# Dados Dinâmicos
 
-## Dados dinâmicos
+A DemoBlaze não permite cadastrar usuários já existentes.
 
-A DemoBlaze não permite cadastrar novamente um usuário já existente.
-
-Por isso, o projeto gera um nome de usuário único em cada execução utilizando data, hora e um sufixo aleatório.
+Para evitar dependência de dados previamente cadastrados, o projeto gera automaticamente um nome de usuário único utilizando timestamp e um valor aleatório.
 
 Exemplo:
 
@@ -191,79 +250,52 @@ Exemplo:
 manoelqa_1784227215349_6425
 ```
 
-Isso evita dependência de dados cadastrados anteriormente e permite executar o teste várias vezes.
+Essa estratégia permite executar o teste repetidas vezes sem necessidade de limpeza da base de dados.
 
-## Cenário automatizado
+---
 
-O cenário principal está localizado em:
+# Cenário Automatizado
+
+O cenário principal encontra-se em:
 
 ```text
 tests/e2e/store-flow.spec.ts
 ```
 
-O teste é dividido nas seguintes etapas:
+Fluxo automatizado:
 
-* Cadastro de um novo usuário;
-* Login;
-* Abertura do produto;
-* Adição ao carrinho;
-* Validação do produto;
-* Remoção do produto;
-* Validação da remoção.
+* Cadastro de usuário
+* Login
+* Seleção de produto
+* Adição ao carrinho
+* Validação do carrinho
+* Remoção do produto
+* Validação da remoção
 
-## Aplicação testada
+---
 
-DemoBlaze:
+# BDD com Gherkin
 
-```text
-https://www.demoblaze.com
-```
-## BDD com Gherkin
+Como diferencial, o projeto também implementa o mesmo fluxo utilizando **Behavior-Driven Development (BDD)**.
 
-Como diferencial, o projeto também possui uma implementação utilizando Behavior-Driven Development (BDD), com cenários escritos em Gherkin e executados por meio do `playwright-bdd`.
+O cenário foi escrito em **Gherkin** e executado através da biblioteca `playwright-bdd`.
 
-O cenário BDD está localizado em:
+Arquivos principais:
 
 ```text
 features/store.feature
 ```
 
-As definições das etapas estão em:
-
 ```text
 features/steps/store.steps.ts
 ```
-
-A fixture específica do BDD está em:
 
 ```text
 features/steps/bdd.fixture.ts
 ```
 
-A configuração de execução está no arquivo:
-
 ```text
 playwright.bdd.config.ts
-```
-
-### Cenário automatizado em Gherkin
-
-```gherkin
-# language: pt
-
-@bdd @e2e
-Funcionalidade: Gerenciamento de produto no carrinho da DemoBlaze
-  Como cliente da loja
-  Quero cadastrar uma conta e gerenciar um produto no carrinho
-  Para validar o funcionamento do fluxo principal de compra
-
-  Cenário: Cadastrar usuário, adicionar e remover um produto
-    Dado que um novo usuário foi cadastrado
-    E que ele realizou login com os dados cadastrados
-    Quando ele adiciona o produto "Samsung galaxy s6" ao carrinho
-    Então o produto deve aparecer no carrinho
-    Quando ele remove o produto do carrinho
-    Então o produto não deve mais aparecer no carrinho
 ```
 
 ### Gerar os testes BDD
@@ -278,7 +310,7 @@ npm run bdd:generate
 npm run test:bdd
 ```
 
-### Executar o BDD com o navegador aberto
+### Executar com navegador aberto
 
 ```bash
 npm run test:bdd:headed
@@ -290,4 +322,27 @@ npm run test:bdd:headed
 npm run test:bdd:report
 ```
 
-A pasta `.features-gen` é gerada automaticamente pelo `playwright-bdd` e não é versionada no repositório.
+A pasta `.features-gen` é gerada automaticamente pela biblioteca e, por esse motivo, não é versionada.
+
+---
+
+# Boas Práticas Aplicadas
+
+* Page Object Model (POM);
+* Organização em camadas;
+* Fixtures personalizadas;
+* Dados dinâmicos para usuários;
+* Separação entre regras de negócio e interações da interface;
+* Uso de TypeScript;
+* Uso de `test.step()` para melhor organização do fluxo;
+* Código reutilizável;
+* Estrutura preparada para expansão dos testes;
+* Implementação de BDD utilizando Gherkin.
+
+---
+
+# Aplicação Testada
+
+DemoBlaze
+
+https://www.demoblaze.com
